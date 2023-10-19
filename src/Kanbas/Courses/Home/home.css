@@ -20,8 +20,12 @@ body {
     text-decoration: none;
 }
 
+a:hover {
+    color: inherit !important;
+}
+
 .wd-nav-icon {
-    color: #b52828;
+    color: #a32424;
 }
 
 .wd-active {
@@ -31,30 +35,33 @@ body {
 .wd-active-title {
     color: #b52828;
 }
+
 .wd-active-icon {
-    color: #b52828;
+    color: #aba89f;
     background-color: #ffff;
 }
 
 .wd-account-nav {
-    box-shadow: 6px 6px 17px -3px rgba(0, 0, 0, 0.74);
-        -webkit-box-shadow: 6px 0px 10px -3px rgba(0, 0, 0, 0.74);
-        -moz-box-shadow: 6px 6px 17px -3px rgba(0, 0, 0, 0.74);
+    width: 190px;
 }
-.wd-account-nav-profile-icon {
-    width: 70px;
-    height: 70px;
-    border: 3px solid #C7CDD1;
-}
-.wd-account-nav-profile-icon-text {
-    font-weight: 600;
-}
-.wd-account-nav-profile-text {
+
+.wd-nav-list-group-item-active {
     color: #2D3B45;
-    font-size: 22px;
-    font-weight: 600;
 }
 
 .wd-nav-list-group-item-text {
     font-weight: 500;
+    text-align: left;
+}
+
+.wd-account-profile-text {
+    /* margin-left: 30px; */
+    font-size: 18px;
+    font-weight: 500;
+    color: #2D3B45;
+}
+
+.wd-edit-profile-label {
+    font-weight: 600;
+    margin-top: 4px;
 }
