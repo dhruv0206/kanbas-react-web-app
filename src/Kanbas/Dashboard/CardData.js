@@ -10,15 +10,15 @@ export const courses = [
   {
     _id: 2,
     name: "Web Development",
-    number: "CS4550",
+    number: "CS4550.11550.202410",
     text: "202410_2 Fall 2023 Semester Full Term Grad",
     startDate: "2023-09-12",
     endDate: "2023-10-17",
   },
   {
     _id: 3,
-    name: "Web Development",
-    number: "CS4550",
+    name: "Unsupervised Machine Learning",
+    number: "DS5230.11550.202410",
     text: "202410_2 Fall 2023 Semester Full Term Grad",
     startDate: "2023-09-12",
     endDate: "2023-10-17",
