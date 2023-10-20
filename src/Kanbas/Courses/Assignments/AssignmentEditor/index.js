@@ -344,13 +344,9 @@ function AssignmentEditor(props) {
                       <button
                         type="button"
                         className="btn btn-outline-secondary btn-sm"
+                        onClick={handleSave}
                       >
-                        <a
-                          href="index.html"
-                          style={{ textDecoration: "none", color: "inherit" }}
-                        >
-                          Cancel
-                        </a>
+                        Cancel
                       </button>
                       <button
                         type="button"
