@@ -4,6 +4,7 @@ import {
   AiOutlinePlus,
   AiFillCaretDown,
   AiFillCheckCircle,
+  AiFillCaretRight,
 } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiGridVertical } from "react-icons/bi";
@@ -11,9 +12,52 @@ import { BiLinkExternal } from "react-icons/bi";
 import { BsLink45Deg } from "react-icons/bs";
 import { displayType } from "../Home/CourseTableData";
 import { ModuleData } from "./ModuleTableData";
+import { useState } from "react";
+import { useParams } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addModule,
+  deleteModule,
+  updateModule,
+  setModule,
+} from "./ModulesReducer";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 function Modules() {
+  const { courseId } = useParams();
+  const [isActiveSection, setIsActiveSection] = useState(false);
+  const [currentId, setCurrentId] = useState(0);
+  // const [modulesList, setModulesList] = useState(ModuleData);
+  // const [module, setModule] = useState({
+  //   displayText: "New Module",
+  //   description: "New Description",
+  //   _id: courseId,
+  //   type: displayType.TITLE,
+  // });
+  const modulesList = useSelector((state) => state.modulesReducer.modules);
+  const module = useSelector((state) => state.modulesReducer.module);
+  const dispatch = useDispatch();
+  // const addModule = (module) => {
+  //   setModulesList([
+  //     { ...module, _id: new Date().getTime().toString() },
+  //     ...modulesList,
+  //   ]);
+  // };
+  // const deleteModule = (moduleId) => {
+  //   setModulesList(modulesList.filter((module) => module._id !== moduleId));
+  // };
+  // const updateModule = () => {
+  //   setModulesList(
+  //     modulesList.map((m) => {
+  //       if (m._id === module._id) {
+  //         return module;
+  //       } else {
+  //         return m;
+  //       }
+  //     })
+  //   );
+  // };
+
   return (
     <div className="w-100 my-3">
       <div className="d-flex">
@@ -94,41 +138,156 @@ function Modules() {
             <hr />
             <div style={{ overflowY: "auto", height: "75vh" }}>
               <ul className="list-group">
-                {ModuleData.map((data, index) =>
+                <li className="list-group-item d-flex align-items center">
+                  <input
+                    className="form-control me-3"
+                    value={module.displayText}
+                    // onChange={(e) =>
+                    //   setModule({
+                    //     ...module,
+                    //     displayText: e.target.value,
+                    //   })
+                    // }
+                    onChange={(e) =>
+                      dispatch(
+                        setModule({ ...module, displayText: e.target.value })
+                      )
+                    }
+                  />
+                  <textarea
+                    className="form-control"
+                    value={module.description}
+                    // onChange={(e) =>
+                    //   setModule({
+                    //     ...module,
+                    //     description: e.target.value,
+                    //   })
+                    // }
+                    onChange={(e) =>
+                      dispatch(
+                        setModule({ ...module, description: e.target.value })
+                      )
+                    }
+                  />
+                </li>
+                <div className="d-flex mt-2">
+                  <button
+                    className="btn btn-sm btn-primary me-3"
+                    // onClick={updateModule}
+                    onClick={() => dispatch(updateModule(module))}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="btn btn-sm btn-success"
+                    // onClick={() => {
+                    //   addModule(module);
+                    // }}
+                    onClick={() =>
+                      dispatch(addModule({ ...module, course: courseId }))
+                    }
+                  >
+                    Add
+                  </button>
+                </div>
+                {modulesList.map((data, index) =>
                   data.type === displayType.TITLE ? (
-                    <li
-                      className="list-group-item mt-5"
-                      style={{
-                        backgroundColor: "#f5f5f5",
-                        border: "1px solid #aba89f",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="d-flex align-items-center">
-                          <BiGridVertical />
-                          <AiFillCaretDown />
-                          <div className="ms-2" style={{ fontWeight: 500 }}>
-                            {data.displayText}
+                    <>
+                      <li
+                        className="list-group-item mt-5"
+                        style={{
+                          backgroundColor: "#f5f5f5",
+                          border: "1px solid #aba89f",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div className="d-flex align-items-center">
+                            <BiGridVertical />
+                            <div
+                              className="d-flex align-items-center"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                setIsActiveSection(!isActiveSection);
+                                setCurrentId(data._id);
+                              }}
+                            >
+                              {isActiveSection && data._id === currentId ? (
+                                <AiFillCaretDown />
+                              ) : (
+                                <AiFillCaretRight />
+                              )}
+                              <div className="ms-2" style={{ fontWeight: 500 }}>
+                                {data.displayText}
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <button
+                              className="btn btn-sm btn-danger me-2"
+                              // onClick={() => deleteModule(data._id)}
+                              onClick={() => dispatch(deleteModule(data._id))}
+                            >
+                              Delete
+                            </button>
+                            <button
+                              className="btn btn-sm btn-primary me-2"
+                              // onClick={(event) => {
+                              //   setModule(data);
+                              // }}
+                              onClick={() => dispatch(setModule(data))}
+                            >
+                              Edit
+                            </button>
+                            <AiFillCheckCircle
+                              style={{
+                                color: "#1f990c",
+                                height: "20px",
+                                width: "20px",
+                              }}
+                            />
+                            {isActiveSection && data._id === currentId ? (
+                              <AiFillCaretDown
+                                style={{ cursor: "pointer" }}
+                                className="ms-2"
+                                onClick={() => {
+                                  setIsActiveSection(!isActiveSection);
+                                  setCurrentId(data._id);
+                                }}
+                              />
+                            ) : (
+                              <AiFillCaretRight
+                                style={{ cursor: "pointer" }}
+                                className="ms-2"
+                                onClick={() => {
+                                  setIsActiveSection(!isActiveSection);
+                                  setCurrentId(data._id);
+                                }}
+                              />
+                            )}
+                            <AiOutlinePlus
+                              className="mx-2"
+                              style={{ color: "#2d3b45" }}
+                            />
+                            <BsThreeDotsVertical />
                           </div>
                         </div>
-                        <div>
-                          <AiFillCheckCircle
-                            style={{
-                              color: "#1f990c",
-                              height: "20px",
-                              width: "20px",
-                            }}
-                          />
-                          <AiFillCaretDown className="ms-2" />
-                          <AiOutlinePlus
-                            className="mx-2"
-                            style={{ color: "#2d3b45" }}
-                          />
-                          <BsThreeDotsVertical />
-                        </div>
-                      </div>
-                    </li>
+                      </li>
+                      {isActiveSection && data._id === currentId && (
+                        <li
+                          className="list-group-item"
+                          style={{
+                            backgroundColor: "#f5f5f5",
+                            border: "1px solid #aba89f",
+                            borderTop: "0px",
+                            borderBottomLeftRadius: "5px",
+                            borderBottomRightRadius: "5px",
+                          }}
+                        >
+                          {data.description}
+                        </li>
+                      )}
+                    </>
                   ) : data.type === displayType.HEADING ? (
                     <li className="list-group-item">
                       <div className="d-flex justify-content-between align-items-center">

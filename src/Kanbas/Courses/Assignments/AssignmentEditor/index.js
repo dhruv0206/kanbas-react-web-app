@@ -5,16 +5,33 @@ import "./edit.css";
 import { assignmentDataDetails } from "../AssignmentData";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addAssignment,
+  updateAssignment,
+  deleteAssignment,
+  setAssignment,
+} from "../AssignmentReducer";
+import { useEffect } from "react";
+
 function AssignmentEditor(props) {
   const { setAssignmentId } = props;
   const { assignmentId } = useParams();
   setAssignmentId(assignmentId);
-  const assignmentData = assignmentDataDetails.find(
-    (assignment) => assignment._id === parseInt(assignmentId)
+  // const assignmentData = assignmentDataDetails.find(
+  //   (assignment) => assignment._id === parseInt(assignmentId)
+  // );
+  const dispatch = useDispatch();
+  const assignmentData = useSelector(
+    (state) => state.assignmentReducer.assignment
   );
   const { courseId } = useParams();
   const navigate = useNavigate();
   const handleSave = () => {
+    dispatch(addAssignment({ ...assignmentData, course: courseId }));
+    navigate(`/Kanbas/Courses/${courseId}/Assignments`);
+  };
+  const handleCancel = () => {
     navigate(`/Kanbas/Courses/${courseId}/Assignments`);
   };
 
@@ -83,6 +100,14 @@ function AssignmentEditor(props) {
                       aria-describedby="assignmentName"
                       placeholder="Edit assignment name"
                       value={assignmentData.title}
+                      onChange={(e) =>
+                        dispatch(
+                          setAssignment({
+                            ...assignmentData,
+                            title: e.target.value,
+                          })
+                        )
+                      }
                     />
                   </div>
                   <div className="form-group mt-3">
@@ -90,16 +115,16 @@ function AssignmentEditor(props) {
                       className="form-control"
                       id="assignmentDescription"
                       rows="3"
-                    >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </textarea>
+                      value={assignmentData.description}
+                      onChange={(e) =>
+                        dispatch(
+                          setAssignment({
+                            ...assignmentData,
+                            description: e.target.value,
+                          })
+                        )
+                      }
+                    ></textarea>
                   </div>
                   <div className="d-flex flex-column align-items-center">
                     <div className="form-group d-flex align-items-center justify-content-center w-50 mt-3">
@@ -115,7 +140,7 @@ function AssignmentEditor(props) {
                         value="88"
                       />
                     </div>
-                    <div className="form-group d-flex align-items-center w-50 mt-3">
+                    {/* <div className="form-group d-flex align-items-center w-50 mt-3">
                       <label for="assignment-group" className="w-50">
                         Assignment Group
                       </label>
@@ -246,7 +271,7 @@ function AssignmentEditor(props) {
                           </label>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="form-group d-flex align-items-start w-50 mt-3">
                       <label for="Submission-type" className="w-50">
                         Assign
@@ -258,7 +283,7 @@ function AssignmentEditor(props) {
                         }}
                       >
                         <div className="p-3 w-100">
-                          <div className="form-group">
+                          {/* <div className="form-group">
                             <label for="assignTo" style={{ fontWeight: 500 }}>
                               Assign To
                             </label>
@@ -266,7 +291,7 @@ function AssignmentEditor(props) {
                               <option>Everyone</option>
                               <option>Students</option>
                             </select>
-                          </div>
+                          </div> */}
                           <div className="form-group mt-2">
                             <label
                               for="assignmentDueDate"
@@ -278,6 +303,15 @@ function AssignmentEditor(props) {
                               type="date"
                               className="form-control"
                               id="assignmentDueDate"
+                              value={assignmentData.due}
+                              onChange={(e) =>
+                                dispatch(
+                                  setAssignment({
+                                    ...assignmentData,
+                                    due: e.target.value,
+                                  })
+                                )
+                              }
                             />
                           </div>
                           <div className="d-flex align-items-center justify-content-between">
@@ -292,6 +326,15 @@ function AssignmentEditor(props) {
                                 type="date"
                                 className="form-control"
                                 id="assignmentAvailable"
+                                value={assignmentData.availableFrom}
+                                onChange={(e) =>
+                                  dispatch(
+                                    setAssignment({
+                                      ...assignmentData,
+                                      availableFrom: e.target.value,
+                                    })
+                                  )
+                                }
                               />
                             </div>
                             <div className="form-group mt-2 ms-2">
@@ -299,17 +342,26 @@ function AssignmentEditor(props) {
                                 for="assignmentAvailableUntil"
                                 style={{ fontWeight: 500 }}
                               >
-                                Util
+                                Until
                               </label>
                               <input
                                 type="date"
                                 className="form-control"
                                 id="assignmentAvailableUntil"
+                                value={assignmentData.availableTill}
+                                onChange={(e) =>
+                                  dispatch(
+                                    setAssignment({
+                                      ...assignmentData,
+                                      availableTill: e.target.value,
+                                    })
+                                  )
+                                }
                               />
                             </div>
                           </div>
                         </div>
-                        <button
+                        {/* <button
                           type="button"
                           className="btn btn-outline-secondary d-flex align-items-center w-100 justify-content-center mt-2"
                           style={{
@@ -321,7 +373,7 @@ function AssignmentEditor(props) {
                         >
                           <i className="fa-solid fa-plus"></i>
                           <span style={{ marginLeft: "5px" }}>Add</span>
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -344,7 +396,7 @@ function AssignmentEditor(props) {
                       <button
                         type="button"
                         className="btn btn-outline-secondary btn-sm"
-                        onClick={handleSave}
+                        onClick={handleCancel}
                       >
                         Cancel
                       </button>

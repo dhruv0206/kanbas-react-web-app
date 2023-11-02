@@ -19,19 +19,16 @@ import { useState } from "react";
 import Grades from "./Grades";
 // import CourseNavigation from "./CourseNavigation";
 
-function Courses(props) {
+function Courses({ coursesList }) {
   const [assignmentId, setAssignmentId] = useState("");
-  console.log(assignmentId, "ASS ID");
   const { courseId } = useParams();
   const { pathname } = useLocation();
-  const courseDetails = courses.find(
+  const courseDetails = coursesList.find(
     (course) => course._id === parseInt(courseId)
   );
   const assignmentDetails = assignmentDataDetails.find(
     (assignment) => assignment._id === parseInt(assignmentId)
   );
-  console.log(pathname.includes());
-  console.log("DETAILSSS", assignmentDetails);
   const currentPage = pathname.includes("Home")
     ? "Home"
     : pathname.includes("Assignments")
