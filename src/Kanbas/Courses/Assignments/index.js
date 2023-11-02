@@ -10,11 +10,18 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaFileSignature } from "react-icons/fa";
 import { assignmentDataDetails } from "./AssignmentData";
 import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAssignment, updateAssignment } from "./AssignmentReducer";
 function Assignments() {
   const { courseId } = useParams();
-  const courseAssignments = assignmentDataDetails.filter(
-    (assignment) => assignment.course_id === parseInt(courseId)
+  const dispatch = useDispatch();
+  const assignments = useSelector(
+    (state) => state.assignmentReducer.assignments
   );
+  const courseAssignments = assignments.filter(
+    (assignment) => assignment.course_id == courseId
+  );
+  const assignmentId = new Date().getTime().toString();
   return (
     // <div style={{ overflowY: "hidden" }}>
     <div className="d-flex w-100">
@@ -257,14 +264,15 @@ function Assignments() {
                   <AiOutlinePlus />
                   <span style={{ marginLeft: "5px" }}>Group</span>
                 </button>
-                <button
+                <Link
                   type="button"
                   className="btn btn-sm d-flex align-items-center text-light mx-1"
                   style={{ backgroundColor: "#b52828" }}
+                  to={`/Kanbas/Courses/${courseId}/Assignments/${assignmentId}`}
                 >
                   <AiOutlinePlus />
                   <span style={{ marginLeft: "5px" }}>Assignment</span>
-                </button>
+                </Link>
                 <div className="dropdown">
                   <button
                     className="btn btn-outline-secondary px-1"
@@ -403,6 +411,7 @@ function Assignments() {
                                 textDecoration: "none",
                               }}
                               to={`/Kanbas/Courses/${courseId}/Assignments/${data._id}`}
+                              onClick={() => dispatch(updateAssignment(data))}
                             >
                               {data.title}
                             </Link>
@@ -421,6 +430,12 @@ function Assignments() {
                         </div>
                       </div>
                       <div className="d-flex align-items-center">
+                        <button
+                          className="btn btn-sm btn-danger me-2"
+                          onClick={() => dispatch(deleteAssignment(data._id))}
+                        >
+                          Delete
+                        </button>
                         <AiFillCheckCircle
                           className="me-3"
                           style={{

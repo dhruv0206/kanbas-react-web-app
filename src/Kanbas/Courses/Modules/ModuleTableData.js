@@ -5,24 +5,71 @@ export const displayType = {
   SLIDES: "slides",
 };
 
+// export const ModuleData = [
+//   {
+//     displayText: "Resources",
+//     type: displayType.TITLE,
+//   },
+//   {
+//     displayText: "Required Textbook",
+//     type: displayType.TITLE,
+//   },
+//   {
+//     displayText: "Week 0 - INTRO",
+//     type: displayType.TITLE,
+//   },
+//   {
+//     displayText: "week 1 - HTML",
+//     type: displayType.TITLE,
+//   },
+// ];
+
 export const ModuleData = [
   {
-    displayText: "Resources",
+    _id: 1,
+    displayText: "Introduction to Rocket Propulsion",
+    description: "Basic principles of rocket propulsion and rocket engines",
     type: displayType.TITLE,
   },
   {
-    displayText: "Required Textbook",
+    _id: 2,
+    displayText: "Fuel and Combustion",
+    description:
+      "Understanding rocket fuel, combustion processes and efficiency.",
     type: displayType.TITLE,
   },
   {
-    displayText: "Week 0 - INTRO",
-    type: displayType.TITLE,
-  },
-  {
-    displayText: "week 1 - HTML",
+    _id: 3,
+    displayText: "Nozzle Design",
+    description:
+      "Principles of rocket nozzle design and performance optimization",
     type: displayType.TITLE,
   },
 ];
+
+// export const ModuleListData = [
+//   {
+//     _id: 1,
+//     moduleName: "Introduction to Rocket Propulsion",
+//     description: "Basic principles of rocket propulsion and rocket engines",
+//   },
+//   {
+//     _id: 2,
+//     moduleName: "Fuel and Combustion",
+//     description:
+//       "Understanding rocket fuel, combustion processes and efficiency.",
+//   },
+//   {
+//     _id: 3,
+//     moduleName: "Nozzle Design",
+//     description:
+//       "Principles of rocket nozzle design and performance optimization",
+//   },
+//   // {
+//   //   displayText: "week 1 - HTML",
+//   //   type: displayType.TITLE,
+//   // },
+// ];
 // export const ModuleData = [
 //   {
 //     displayText: "WEEK 0 - INTRO",
