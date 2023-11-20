@@ -25,7 +25,8 @@ function Courses() {
   const [course, setCourse] = useState({});
   const { courseId } = useParams();
   const { pathname } = useLocation();
-  const URL = "http://localhost:4000/api/courses";
+  const API_BASE = process.env.REACT_APP_API_BASE;
+  const URL = `${API_BASE}/courses`;
   // const courseDetails = coursesList.find(
   //   (course) => course._id === parseInt(courseId)
   // );
