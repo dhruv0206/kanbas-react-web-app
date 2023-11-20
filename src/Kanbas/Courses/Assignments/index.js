@@ -21,7 +21,21 @@ function Assignments() {
   const courseAssignments = assignments.filter(
     (assignment) => assignment.course_id == courseId
   );
+
+  // const URL = "http://localhost:4000/api/courses";
+  // const findCourseById = async (courseId) => {
+  //   const response = await axios.get(`${URL}/${courseId}`);
+  //   setCourse(response.data);
+  // };
+  // useEffect(() => {
+  //   findCourseById(courseId);
+  // }, [courseId]);
+
   const assignmentId = new Date().getTime().toString();
+  console.log("courseAssignments", courseAssignments);
+  console.log("assignments", assignments, courseId, assignmentId);
+  console.log("CID", courseId);
+  console.log("AID", assignmentId);
   return (
     // <div style={{ overflowY: "hidden" }}>
     <div className="d-flex w-100">

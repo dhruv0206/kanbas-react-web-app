@@ -15,17 +15,28 @@ import { courses } from "../Dashboard/CardData";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/AssignmentEditor";
 import { assignmentDataDetails } from "./Assignments/AssignmentData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Grades from "./Grades";
+import axios from "axios";
 // import CourseNavigation from "./CourseNavigation";
 
-function Courses({ coursesList }) {
+function Courses() {
   const [assignmentId, setAssignmentId] = useState("");
+  const [course, setCourse] = useState({});
   const { courseId } = useParams();
   const { pathname } = useLocation();
-  const courseDetails = coursesList.find(
-    (course) => course._id === parseInt(courseId)
-  );
+  const URL = "http://localhost:4000/api/courses";
+  // const courseDetails = coursesList.find(
+  //   (course) => course._id === parseInt(courseId)
+  // );
+  const findCourseById = async (courseId) => {
+    const response = await axios.get(`${URL}/${courseId}`);
+    setCourse(response.data);
+  };
+  useEffect(() => {
+    findCourseById(courseId);
+  }, [courseId]);
+
   const assignmentDetails = assignmentDataDetails.find(
     (assignment) => assignment._id === parseInt(assignmentId)
   );
@@ -63,7 +74,7 @@ function Courses({ coursesList }) {
                 pathname.includes(`Assignments/${assignmentId}`) && "nowrap",
             }}
           >
-            {courseDetails.number}
+            {course.number}
           </div>
           <AiOutlineRight className="mx-3" style={{ color: "#2d3b45" }} />
           <div
