@@ -2,36 +2,69 @@ import { Navigate, Route, Routes } from "react-router";
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./KanbasNavigation";
 import Courses from "./Courses";
-import { courses } from "./Dashboard/CardData";
-import { useState } from "react";
+// import { courses } from "./Dashboard/CardData";
+import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import store from "./store";
+import axios from "axios";
 
 function Kanbas() {
-  const [coursesList, setCoursesList] = useState(courses);
+  const [coursesList, setCoursesList] = useState([]);
   const [course, setCourse] = useState({
     name: "New Course",
     number: "New Number",
     startDate: "2023-09-10",
     endDate: "2023-12-15",
   });
+  const URL = "http://localhost:4000/api/courses";
+  const findAllCourses = async () => {
+    const response = await axios.get(URL);
+    setCoursesList(response.data);
+  };
+  useEffect(() => {
+    findAllCourses();
+  }, []);
+  const addCourse = async () => {
+    const response = await axios.post(URL, course);
+    setCoursesList([response.data, ...coursesList]);
+    setCourse({ name: "" });
+  };
+  const deleteCourse = async (course) => {
+    await axios.delete(`${URL}/${course._id}`);
+    setCoursesList(coursesList.filter((c) => c._id !== course._id));
+  };
+
   const addNewCourse = () => {
-    setCoursesList([...courses, { ...course, _id: new Date().getTime() }]);
+    setCoursesList([...coursesList, { ...course, _id: new Date().getTime() }]);
   };
-  const deleteCourse = (courseId) => {
-    setCoursesList(courses.filter((course) => course._id !== courseId));
-  };
-  const updateCourse = () => {
+  // const deleteCourse = (courseId) => {
+  //   setCoursesList(courses.filter((course) => course._id !== courseId));
+  // };
+  const updateCourse = async (course) => {
+    console.log("COURSE", course);
+    const response = await axios.put(`${URL}/${course._id}`, course);
     setCoursesList(
-      courses.map((c) => {
+      coursesList.map((c) => {
         if (c._id === course._id) {
           return course;
-        } else {
-          return c;
         }
+        return c;
       })
     );
+    setCourse({ name: "" });
   };
+
+  // const updateCourse = () => {
+  //   setCoursesList(
+  //     courses.map((c) => {
+  //       if (c._id === course._id) {
+  //         return course;
+  //       } else {
+  //         return c;
+  //       }
+  //     })
+  //   );
+  // };
   return (
     <Provider store={store}>
       <div className="d-flex">
@@ -47,7 +80,7 @@ function Kanbas() {
                 coursesList={coursesList}
                 course={course}
                 setCourse={setCourse}
-                addNewCourse={addNewCourse}
+                addNewCourse={addCourse}
                 deleteCourse={deleteCourse}
                 updateCourse={updateCourse}
               />
